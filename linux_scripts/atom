@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Translate the paths for Windows
+
+if [[ $@ == /* ]]
+then
+  FIXED_PWD=$@
+else
+  FIXED_PWD=$PWD
+  FIXED_PWD+=\\$@
+fi
+FIXED_PWD=$(winpath $FIXED_PWD)
+
+# Generate the batch file to run atom with the specified fully qualified file!
+# Also deletes the generated batch when done and exits any console window
+cat > /mnt/d/scripts/W4F25Free/from_ubuntu/run_atom.bat <<EOL
+CMD /c atom $FIXED_PWD
+CMD /c DEL "%0"
+EXIT
+EOL

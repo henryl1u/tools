@@ -1,0 +1,18 @@
+UBUNTU_PATH=$1
+# Resolve the real path if this involves symlinks
+WINDOWS_PATH=`readlink -f $UBUNTU_PATH`
+# Fix mounts if exist in path
+WINDOWS_PATH=${WINDOWS_PATH/\/mnt\/d/D:}
+WINDOWS_PATH=${WINDOWS_PATH/\/mnt\/c/C:}
+# If the path still starts with / (ubuntu path), correct it to where
+# they are on windows
+if [[ $WINDOWS_PATH == /* ]]
+then
+  WINDOWS_PATH=${WINDOWS_PATH/\//C:\\Users\\henry\\AppData\\Local\\lxss\\rootfs\\}
+fi
+
+# Finally fix the slashes
+WINDOWS_PATH=`echo $WINDOWS_PATH | tr '/' '\\\'`
+
+echo $WINDOWS_PATH
+

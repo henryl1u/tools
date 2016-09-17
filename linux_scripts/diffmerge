@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Translate the paths for Windows
+FIXED_PWD=$PWD
+FIXED_PWD=$(winpath $FIXED_PWD)
+
+BASE=$1
+FIXED_BASE=$(winpath $BASE)
+
+CURRENT=$FIXED_PWD\\$2
+
+TMPFILE=/mnt/d/scripts/W4F25Free/from_ubuntu/run_dm.bat
+
+# Generate the batch file to run atom with the specified fully qualified file!
+# Also deletes the generated batch when done and exits any console window
+cat > $TMPFILE <<EOL
+PUSHD $FIXED_PWD
+CMD /c C:\Progra~1\SourceGear\Common\DiffMerge\sgdm.exe $FIXED_BASE $CURRENT
+CMD /c DEL "%0"
+EXIT
+EOL
+
+# Wait until the file has been deleted (difftool closed)
+while [ -f "$TMPFILE" ]
+do
+  sleep 2
+  # inotifywait -qqt 2 -e delete -e delete_self "$(dirname $TMPFILE)"
+done
