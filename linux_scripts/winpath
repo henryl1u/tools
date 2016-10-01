@@ -6,8 +6,9 @@ WINDOWS_PATH=${WINDOWS_PATH/\/mnt\/d/D:}
 WINDOWS_PATH=${WINDOWS_PATH/\/mnt\/c/C:}
 # If the path still starts with / (ubuntu path), correct it to where
 # they are on windows
-if [[ $WINDOWS_PATH == /* ]]
-then
+if [[ $WINDOWS_PATH == /home* ]]; then
+  WINDOWS_PATH=${WINDOWS_PATH/\//C:\\Users\\henry\\AppData\\Local\\lxss\\home\\}
+elif [[ $WINDOWS_PATH == /* ]]; then
   WINDOWS_PATH=${WINDOWS_PATH/\//C:\\Users\\henry\\AppData\\Local\\lxss\\rootfs\\}
 fi
 
